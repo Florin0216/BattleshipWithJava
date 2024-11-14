@@ -1,5 +1,6 @@
 package battleship;
 
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +9,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         String[][] field = new String[11][11];
-        Field.displayField(field);;
+        Field gameField = new Field();
+        gameField.displayField(field);
 
         System.out.println("Enter the coordinates of the ship:");
         String firstCoordinate = scanner.next();
@@ -28,7 +30,7 @@ public class Main {
         } else if ((secondIndex < 1 || secondIndex > 10)) {
             System.out.println("Error");
         }else {
-            Field.getLengthAndParts(firstCoordinate, secondCoordinate);
+            gameField.getLengthAndParts(firstCoordinate, secondCoordinate);
         }
     }
 }

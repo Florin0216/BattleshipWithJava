@@ -1,7 +1,8 @@
 package battleship;
 
 public class Field {
-    public void displayField(String[][] field){
+
+    public void createField(String[][] field) {
         for(int i = 0; i < field.length; i++ ){
             if(i == 0){
                 field[0][0] = "  ";
@@ -15,6 +16,9 @@ public class Field {
                 field[i][j] = "~ ";
             }
         }
+    }
+
+    public void displayField(String[][] field){
         for(int i = 0; i < field.length; i++){
             for(int j = 0; j < field[i].length; j++){
                 System.out.print(field[i][j]);
@@ -23,56 +27,29 @@ public class Field {
         }
     }
 
-    public void getLengthAndParts(String first,String second) {
+    public void modifyField(String[][] field, String first, String second){
         char firstRow = first.charAt(0);
         char secondRow = second.charAt(0);
-        int firstCol = Integer.parseInt(first.substring(1));;
+        int firstCol = Integer.parseInt(first.substring(1));
         int secondCol = Integer.parseInt(second.substring(1));
-        int length = 0;
-        boolean ok = true;
-        String[] parts = new String[0];
+
         if(firstRow == secondRow){
             if (firstCol > secondCol) {
                 int temp = firstCol;
                 firstCol = secondCol;
                 secondCol = temp;
-                ok = false;
             }
-            int start = Math.min(firstCol, secondCol);
-            int end = Math.max(firstCol, secondCol);
-            length = end - start + 1;
-            parts = new String[length];
-            int j = firstCol;
-            for (int i = 0; i < length; i++) {
-                parts[i] = first.charAt(0) + String.valueOf(j) + " ";
-                j++;
+            for(int j = firstCol; j <= secondCol; j++){
+                field[firstRow - '@'][j] = "O ";
             }
         }else if(firstCol == secondCol){
             if (firstRow > secondRow) {
                 char temp = firstRow;
                 firstRow = secondRow;
                 secondRow = temp;
-                ok = false;
             }
-            char start = (char) Math.min(firstRow, secondRow);
-            char end = (char) Math.max(firstRow, secondRow);
-            length = end - start + 1;
-            parts = new String[length];
-            for (int i = 0; i < length; i++) {
-                char currentRow = firstRow;
-                String currentCol = String.valueOf(firstCol);
-                parts[i] =(char)(currentRow + i) + currentCol + " ";
-            }
-        }
-        System.out.println("Length: " + length);
-        System.out.print("Parts: ");
-        if (ok) {
-            for (int i = 0; i < length; i++) {
-                System.out.print(parts[i] + " ");
-            }
-        } else {
-            for (int i = length - 1; i >= 0; i--) {
-                System.out.print(parts[i] + " ");
+            for(int j = (firstRow - '@'); j <= (secondRow - '@'); j++){
+                field[j][firstCol] = "O ";
             }
         }
     }

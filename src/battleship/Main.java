@@ -1,36 +1,33 @@
 package battleship;
 
-
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
         String[][] field = new String[11][11];
         Field gameField = new Field();
+
+        gameField.createField(field);
         gameField.displayField(field);
 
-        System.out.println("Enter the coordinates of the ship:");
-        String firstCoordinate = scanner.next();
-        String secondCoordinate = scanner.next();
+        Ship aircraftCarrier = new Ship("Aircraft Carrier",5);
+        aircraftCarrier.createShip(field);
+        gameField.displayField(field);
 
-        int firstIndex = Integer.parseInt(firstCoordinate.substring(1));;
-        int secondIndex= Integer.parseInt(secondCoordinate.substring(1));
+        Ship battleship = new Ship("Battleship",4);
+        battleship.createShip(field);
+        gameField.displayField(field);
 
-        if((firstCoordinate.charAt(0) != secondCoordinate.charAt(0)) && (!firstCoordinate.substring(1).equals(secondCoordinate.substring(1)))) {
-            System.out.println("Error");
-        }else if((firstCoordinate.charAt(0) <'A' || firstCoordinate.charAt(0) >'J')){
-            System.out.println("Error");
-        }else if((secondCoordinate.charAt(0) <'A' || secondCoordinate.charAt(0) >'J')){
-            System.out.println("Error");
-        }else if((firstIndex < 1 || firstIndex > 10)){
-            System.out.println("Error");
-        } else if ((secondIndex < 1 || secondIndex > 10)) {
-            System.out.println("Error");
-        }else {
-            gameField.getLengthAndParts(firstCoordinate, secondCoordinate);
-        }
+        Ship submarine = new Ship("Submarine",3);
+        submarine.createShip(field);
+        gameField.displayField(field);
+
+        Ship cruiser = new Ship("Cruiser",3);
+        cruiser.createShip(field);
+        gameField.displayField(field);
+
+        Ship destroyer = new Ship("Destroyer",2);
+        destroyer.createShip(field);
+        gameField.displayField(field);
     }
 }

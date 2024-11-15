@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.Scanner;
+
 public class Utils {
 
     public static int calculateLength(String first,String second) {
@@ -92,5 +94,39 @@ public class Utils {
             }
         }
         return collision;
+    }
+
+    public static void shoot(String[][] field1,String[][] field2) {
+        Field field = new Field();
+        Scanner scanner = new Scanner(System.in);
+        field.displayField(field2);
+
+        System.out.println("Take a shot!");
+
+        while(true) {
+            String shootingPosition = scanner.nextLine();
+
+            char row = shootingPosition.charAt(0);
+            int col = Integer.parseInt(shootingPosition.substring(1));
+
+            if((row >= 'A' && row <= 'J') && (col >= 1 && col <= 10)) {
+                if(field1[row - '@'][col].equals("O ")) {
+                    field2[row - '@'][col] = "X ";
+                    field1[row - '@'][col] = "X ";
+                    field.displayField(field2);
+                    System.out.println("You hit a ship!");
+                    field.displayField(field1);
+                    break;
+                }else {
+                    field1[row - '@'][col] = "M ";
+                    field.displayField(field2);
+                    System.out.println("You missed!");
+                    field.displayField(field1);
+                    break;
+                }
+            }else {
+                System.out.println("Error! You entered the wrong coordinates! Try again:");
+            }
+        }
     }
 }

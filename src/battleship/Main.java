@@ -5,9 +5,11 @@ public class Main {
     public static void main(String[] args) {
 
         String[][] field = new String[11][11];
+        String[][] fogOfWar = new String[11][11];
         Field gameField = new Field();
 
         gameField.createField(field);
+        gameField.createField(fogOfWar);
         gameField.displayField(field);
 
         Ship aircraftCarrier = new Ship("Aircraft Carrier",5);
@@ -29,5 +31,9 @@ public class Main {
         Ship destroyer = new Ship("Destroyer",2);
         destroyer.createShip(field);
         gameField.displayField(field);
+
+        System.out.println("The game starts!");
+
+        Utils.shoot(field,fogOfWar);
     }
 }

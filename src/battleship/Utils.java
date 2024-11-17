@@ -96,37 +96,77 @@ public class Utils {
         return collision;
     }
 
-    public static void shoot(String[][] field1,String[][] field2) {
-        Field field = new Field();
+    public static boolean shoot(String[][] field1,String[][] field2,String[][] copy,String[][] verifier) {
         Scanner scanner = new Scanner(System.in);
-        field.displayField(field2);
 
-        System.out.println("Take a shot!");
-
-        while(true) {
+        while (true) {
             String shootingPosition = scanner.nextLine();
 
             char row = shootingPosition.charAt(0);
             int col = Integer.parseInt(shootingPosition.substring(1));
 
-            if((row >= 'A' && row <= 'J') && (col >= 1 && col <= 10)) {
-                if(field1[row - '@'][col].equals("O ")) {
+            if ((row >= 'A' && row <= 'J') && (col >= 1 && col <= 10)) {
+                if (copy[row - '@'][col].equals("O ")) {
                     field2[row - '@'][col] = "X ";
                     field1[row - '@'][col] = "X ";
-                    field.displayField(field2);
-                    System.out.println("You hit a ship!");
-                    field.displayField(field1);
+                    if (isShipSunk(copy, field2, row, col) && !verifier[row - '@'][col].equals("V ")) {
+                        System.out.println("You sank a ship!");
+                        return true;
+                    } else {
+                        System.out.println("You hit a ship!");
+                        verifier[row - '@'][col] = "V ";
+                    }
                     break;
-                }else {
+                } else {
+                    field2[row - '@'][col] = "M ";
                     field1[row - '@'][col] = "M ";
-                    field.displayField(field2);
                     System.out.println("You missed!");
-                    field.displayField(field1);
                     break;
                 }
-            }else {
+            } else {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
             }
         }
+        return false;
+    }
+    public static boolean isShipSunk(String[][] field1, String[][] field2, char row, int col) {
+        int rowIndex = row - '@';
+
+        if (!field1[rowIndex][col].equals("O ")) {
+            return false;
+        }
+
+        int startRow = rowIndex;
+        int endRow = rowIndex;
+        int startCol = col;
+        int endCol = col;
+
+        while (startCol > 0 && field1[rowIndex][startCol - 1].equals("O ")) {
+            startCol--;
+        }
+        while (endCol < field1[rowIndex].length - 1 && field1[rowIndex][endCol + 1].equals("O ")) {
+            endCol++;
+        }
+
+        while (startRow > 0 && field1[startRow - 1][col].equals("O ")) {
+            startRow--;
+        }
+        while (endRow < field1.length - 1 && field1[endRow + 1][col].equals("O ")) {
+            endRow++;
+        }
+
+        for (int i = startRow; i <= endRow; i++) {
+            for (int j = startCol; j <= endCol; j++) {
+                if (field1[i][j].equals("O ") && !field2[i][j].equals("X ")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

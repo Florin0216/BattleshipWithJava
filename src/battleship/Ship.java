@@ -3,8 +3,8 @@ package battleship;
 import java.util.Scanner;
 
 public class Ship {
-    private String name;
-    private int size;
+    private final String name;
+    private final int size;
 
     public Ship(String shipName,int shipSize) {
         this.name = shipName;
